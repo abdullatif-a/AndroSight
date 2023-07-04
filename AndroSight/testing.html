@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload and Submit File</title>
+    <style>
+        .upload-container {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+        }
+        .upload-container.dragover {
+            background-color: #f0f0f0;
+        }
+        .upload-input {
+            display: none;
+        }
+        .upload-label {
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="upload-container">
+        <form id="upload-form" method="POST" action="main.php" enctype="multipart/form-data">
+            <input type="file" id="file-input" name="file" class="upload-input" onchange="handleFileSelect()" ondrop="dropHandler(event)" ondragover="dragOverHandler(event)" ondragleave="dragLeaveHandler(event)">
+            <label for="file-input" class="upload-label">Drag and drop a file or click here to upload</label>
+        </form>
+    </div>
+    <script>
+        function submitForm() {
+            document.getElementById("upload-form").submit();
+        }
+    
+        function dragOverHandler(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            event.currentTarget.classList.add('dragover');
+        }
+    
+        function dragLeaveHandler(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            event.currentTarget.classList.remove('dragover');
+        }
+    
+        function dropHandler(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            event.currentTarget.classList.remove('dragover');
+            
+            const fileInput = document.getElementById("file-input");
+            fileInput.files = event.dataTransfer.files;
+            submitForm();
+        }
+    
+        function handleFileSelect(event) {
+            const fileInput = document.getElementById("file-input");
+            fileInput.files = event.target.files;
+            submitForm();
+        }
+    </script>
+    
+</body>
+</html>
